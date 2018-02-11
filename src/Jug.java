@@ -3,9 +3,9 @@ public class Jug {
 	private int totalCapacity;
 	private int currCapacity;
 	
-	public Jug(int cap) {
+	public Jug(int cap, int start) {
 		totalCapacity = cap;
-		currCapacity = 0;
+		currCapacity = start;
 	}
 	
 	public int getTotalCapacity() {

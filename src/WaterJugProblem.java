@@ -38,8 +38,11 @@ public class WaterJugProblem {
 		int jugBInitial = Integer.parseInt(initialStatePair[1]);
 		int jugAGoal = Integer.parseInt(goalStatePair[0]);
 		int jugBGoal = Integer.parseInt(goalStatePair[1]);
-		
-		System.out.println(jugAInitial + " " + jugBInitial + " " + jugAGoal + " " + jugBGoal);
+
+		StrategyA run_1 = new StrategyA(capacityA, capacityB, jugAInitial, jugBInitial, jugAGoal, jugBGoal);
+		StrategyB run_2 = new StrategyB(capacityA, capacityB, jugAInitial, jugBInitial, jugAGoal, jugBGoal);
+
+		System.out.println(run_1 + "\n" + run_2);
 	}
 
 }
