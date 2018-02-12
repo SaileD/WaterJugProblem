@@ -1,4 +1,8 @@
-
+/**
+ * Runs the random attempt at solving the water jug problem, note that operators 3 and 4 are not included per the instructions.
+ * @author Saile Daimwood
+ *
+ */
 public class StrategyA {
 	private Jug jugA;
 	private Jug jugB;
@@ -18,5 +22,35 @@ public class StrategyA {
 	public boolean beginRun() {
 		
 		return true;
+	}
+	
+	// Operator 1
+	public void fillJugA() {
+		jugA.fill();
+	}
+	
+	// Operator 2
+	public void fillJugB() {
+		jugB.fill();
+	}
+	
+	//Operator 5
+	public void emptyJugA() {
+		jugA.empty();
+	}
+	
+	//Operator 6
+	public void emptyJugB() {
+		jugB.empty();
+	}
+	
+	// This comprises both operators 7 and 9 
+	public void fillJugAFromB() {
+		jugA.fillFrom(jugB);
+	}
+	
+	// This comprises both operators 8 and 10
+	public void fillJugBFromA() {
+		jugB.fillFrom(jugA);
 	}
 }
