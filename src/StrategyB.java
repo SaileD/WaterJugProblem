@@ -12,10 +12,10 @@ public class StrategyB {
 		goalA = jugA_goal;
 		goalB = jugB_goal;
 
-		beginRun();
+		run();
 	}
 
-public boolean beginRun() {
+public boolean run() {
 		
 		return true;
 	}
