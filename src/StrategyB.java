@@ -1,5 +1,5 @@
 import java.io.PrintWriter;
-import java.util.*;;
+import java.util.*;
 
 public class StrategyB {
 	private Jug jugA;
