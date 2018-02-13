@@ -7,22 +7,23 @@ public class StrategyB {
 	private int goalA;
 	private int goalB;
 	private PrintWriter out;
-	private Map <State, Boolean> stateMap;
+	private Map<State, Boolean> stateMap;
 	private Queue<State> visited;
 
-	public StrategyB(int jugA_cap, int jugB_cap, int jugA_init, int jugB_init, int jugA_goal, int jugB_goal, PrintWriter out) {
+	public StrategyB(int jugA_cap, int jugB_cap, int jugA_init, int jugB_init, int jugA_goal, int jugB_goal,
+			PrintWriter out) {
 		jugA = new Jug(jugA_cap, jugA_init);
 		jugB = new Jug(jugB_cap, jugB_init);
 
 		goalA = jugA_goal;
 		goalB = jugB_goal;
-		
+
 		this.out = out;
 
 		stateMap = new HashMap<State, Boolean>();
 		visited = new PriorityQueue<State>();
-		visited.add(new State(0,0));
-		
+		visited.add(new State(0, 0));
+
 		run();
 	}
 
@@ -36,16 +37,17 @@ public class StrategyB {
 				+ jugB.getCurrentCapacity() + ")");
 
 		out.println("Starting out with a " + jugA.getTotalCapacity() + "-gallon jug and a " + jugB.getTotalCapacity()
-				+ "-gallon jug\t\t\t --- state: (" + jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity() + ")");
+				+ "-gallon jug\t\t\t --- state: (" + jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity()
+				+ ")");
 
-		while(!visited.isEmpty()) {
+		while (!visited.isEmpty()) {
 			State s = visited.peek();
-			
+
 			visited.remove();
-			
-			//check to see if state is already visited
-			if(stateMap.get(s).equals(true)) {
-				
+
+			// check to see if state is already visited, if it is, move on
+			if (stateMap.get(s).equals(true)) {
+				continue;
 			}
 		}
 		return true;
