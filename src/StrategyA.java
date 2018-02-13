@@ -38,7 +38,8 @@ public class StrategyA {
 				+ jugB.getCurrentCapacity() + ")");
 
 		out.println("Starting out with a " + jugA.getTotalCapacity() + "-gallon jug and a " + jugB.getTotalCapacity()
-				+ "-gallon jug\t\t\t --- state: (" + jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity() + ")");
+				+ "-gallon jug\t\t\t --- state: (" + jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity()
+				+ ")");
 
 		int counter = 0;
 		while (!solutionReached() && counter < 250) {
@@ -47,22 +48,41 @@ public class StrategyA {
 
 			switch (choice) {
 			case 0:
-				fillJugA();
+				if (jugA.getCurrentCapacity() != jugA.getTotalCapacity())
+					fillJugA();
+				else
+					continue;
+
 				break;
 			case 1:
-				fillJugB();
+				if (jugB.getCurrentCapacity() != jugB.getTotalCapacity())
+					fillJugB();
+				else
+					continue;
 				break;
 			case 2:
-				emptyJugA();
+				if (jugA.getCurrentCapacity() != 0)
+					emptyJugA();
+				else
+					continue;
 				break;
 			case 3:
-				emptyJugB();
+				if (jugB.getCurrentCapacity() != 0)
+					emptyJugB();
+				else
+					continue;
 				break;
 			case 4:
-				fillJugAFromB();
+				if (jugB.getCurrentCapacity() != 0 && jugA.getCurrentCapacity() != jugA.getTotalCapacity())
+					fillJugAFromB();
+				else
+					continue;
 				break;
 			case 5:
-				fillJugBFromA();
+				if (jugA.getCurrentCapacity() != 0 && jugB.getCurrentCapacity() != jugB.getTotalCapacity())
+					fillJugBFromA();
+				else
+					continue;
 				break;
 			}
 

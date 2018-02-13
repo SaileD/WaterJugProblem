@@ -1,4 +1,5 @@
 import java.io.PrintWriter;
+import java.util.*;;
 
 public class StrategyB {
 	private Jug jugA;
@@ -6,6 +7,8 @@ public class StrategyB {
 	private int goalA;
 	private int goalB;
 	private PrintWriter out;
+	private Map <State, Boolean> stateMap;
+	private Queue<State> visited;
 
 	public StrategyB(int jugA_cap, int jugB_cap, int jugA_init, int jugB_init, int jugA_goal, int jugB_goal, PrintWriter out) {
 		jugA = new Jug(jugA_cap, jugA_init);
@@ -16,6 +19,10 @@ public class StrategyB {
 		
 		this.out = out;
 
+		stateMap = new HashMap<State, Boolean>();
+		visited = new PriorityQueue<State>();
+		visited.add(new State(0,0));
+		
 		run();
 	}
 
@@ -31,33 +38,15 @@ public class StrategyB {
 		out.println("Starting out with a " + jugA.getTotalCapacity() + "-gallon jug and a " + jugB.getTotalCapacity()
 				+ "-gallon jug\t\t\t --- state: (" + jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity() + ")");
 
-		int counter = 0;
-		while (!solutionReached() && counter < 250) {
-			// generate random number between 0->5
-			int choice = (int) (Math.random() * 6);
-
-			switch (choice) {
-			case 0:
-				fillJugA();
-				break;
-			case 1:
-				fillJugB();
-				break;
-			case 2:
-				emptyJugA();
-				break;
-			case 3:
-				emptyJugB();
-				break;
-			case 4:
-				fillJugAFromB();
-				break;
-			case 5:
-				fillJugBFromA();
-				break;
+		while(!visited.isEmpty()) {
+			State s = visited.peek();
+			
+			visited.remove();
+			
+			//check to see if state is already visited
+			if(stateMap.get(s).equals(true)) {
+				
 			}
-
-			counter++;
 		}
 		return true;
 	}
