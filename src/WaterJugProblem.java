@@ -8,9 +8,9 @@ public class WaterJugProblem {
 
 	public static void main(String[] args) throws IOException {
 		// TODO: change new File("inputx.txt"); to new File(args[0]);
-		File inFile = new File("Examples/input1.txt");
+		File inFile = new File(args[0]);
 		Scanner in = new Scanner(inFile);
-		PrintWriter out = new PrintWriter(new FileWriter("Examples/output.txt"));
+		PrintWriter out = new PrintWriter(new FileWriter("output.txt"));
 
 		String jugAInfo = in.nextLine();
 		String jugBInfo = in.nextLine();

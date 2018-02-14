@@ -25,7 +25,7 @@ public class StrategyB {
 
 		stateList = new LinkedList<State>();
 		visited = new PriorityQueue<State>();
-		visited.add(new State(0, 0));
+		visited.add(new State(jugA_init, jugB_init));
 
 		run();
 	}
