@@ -102,10 +102,11 @@ public class StrategyB {
 			}
 		}
 		if (finalState != null) {
-			System.out.println("J1  J2");
 			System.out.println(finalState);
+			out.println(finalState);
 		} else {
 			System.out.println("Not Possible");
+			out.println("Not possible");
 
 		}
 		return true;
@@ -113,23 +114,27 @@ public class StrategyB {
 
 	// Operator 1
 	public State fillJugA(State s) {
-		return new State(jugA.getTotalCapacity(), s.two, s);
+		return new State(jugA.getTotalCapacity(), s.two, s, "Fill the " + jugA.getTotalCapacity()
+				+ "-gallon jug\t\t\t\t\t\t\t\t\t\t --- state: (" + jugA.getTotalCapacity() + ", " + s.two + ")");
 
 	}
 
 	// Operator 2
 	public State fillJugB(State s) {
-		return new State(s.one, jugB.getTotalCapacity(), s);
+		return new State(s.one, jugB.getTotalCapacity(), s, "Fill the " + jugB.getTotalCapacity()
+				+ "-gallon jug\t\t\t\t\t\t\t\t\t\t --- state: (" + s.one + ", " + jugB.getTotalCapacity() + ")");
 	}
 
 	// Operator 5
 	public State emptyJugA(State s) {
-		return new State(0, s.two, s);
+		return new State(0, s.two, s, "Empty the " + jugA.getTotalCapacity()
+				+ "-gallon jug\t\t\t\t\t\t\t\t\t\t --- state: (0" + ", " + s.two + ")");
 	}
 
 	// Operator 6
 	public State emptyJugB(State s) {
-		return new State(s.one, 0, s);
+		return new State(s.one, 0, s, "Empty the " + jugB.getTotalCapacity()
+				+ "-gallon jug\t\t\t\t\t\t\t\t\t\t --- state: (" + s.one + ", 0" + ")");
 	}
 
 	// This comprises both operators 7 and 9
@@ -146,7 +151,8 @@ public class StrategyB {
 			two = temp;
 		}
 
-		return new State(one, two, s);
+		return new State(one, two, s, "Pour water from the " + jugA.getTotalCapacity() + "-gallon jug into the "
+				+ jugB.getTotalCapacity() + "-gallon jug\t\t --- state: (" + one + ", " + two + ")");
 	}
 
 	// This comprises both operators 8 and 10
@@ -162,7 +168,8 @@ public class StrategyB {
 			two = jugB.getTotalCapacity();
 			one = temp;
 		}
-		return new State(one, two, s);
+		return new State(one, two, s, "Pour water from the " + jugB.getTotalCapacity() + "-gallon jug into the "
+				+ jugA.getTotalCapacity() + "-gallon jug\t\t --- state: (" + one + ", " + two + ")");
 	}
 
 	// Pour water from the 7-gallon jug into the 4-gallon jug

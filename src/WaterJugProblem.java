@@ -50,8 +50,6 @@ public class WaterJugProblem {
 		StrategyB run_2 = new StrategyB(capacityA, capacityB, jugAInitial, jugBInitial, jugAGoal, jugBGoal, out);
 
 		out.close();
-
-		System.out.println(run_1 + "\n" + run_2);
 	}
 
 }

@@ -1,18 +1,20 @@
-
-public class State implements Comparable<State>{
+public class State implements Comparable<State> {
 	public int one;
 	public int two;
-	State prevState;
+	private State prevState;
+	private String description;
 
 	public State(int x, int y) {
 		one = x;
 		two = y;
+		description = "";
 	}
-	
-	public State(int x, int y, State s) {
+
+	public State(int x, int y, State s, String d) {
 		one = x;
 		two = y;
 		prevState = s;
+		description = d;
 	}
 
 	@Override
@@ -20,45 +22,45 @@ public class State implements Comparable<State>{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + one;
-        result = prime * result + two;
-        return result;
-    }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        State other = (State) obj;
-        if (one != other.one) {
-            return false;
-        }
-        if (two != other.two) {
-            return false;
-        }
-        return true;
-    }
-    
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        if (prevState != null) {
-            builder.append(prevState);
-        }
-        builder.append(one);
-        builder.append("    ").append(two).append("\n");
-        return builder.toString();
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + one;
+		result = prime * result + two;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		State other = (State) obj;
+		if (one != other.one) {
+			return false;
+		}
+		if (two != other.two) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		if (prevState != null)
+			builder.append(prevState);
+
+		if (!description.equals(""))
+			builder.append(description).append("\n");
+		return builder.toString();
+	}
 }
