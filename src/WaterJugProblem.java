@@ -7,7 +7,6 @@ import java.util.*;
 public class WaterJugProblem {
 
 	public static void main(String[] args) throws IOException {
-		// TODO: change new File("inputx.txt"); to new File(args[0]);
 		File inFile = new File(args[0]);
 		Scanner in = new Scanner(inFile);
 		PrintWriter out = new PrintWriter(new FileWriter("output.txt"));
