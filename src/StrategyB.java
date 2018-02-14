@@ -7,7 +7,8 @@ public class StrategyB {
 	private int goalA;
 	private int goalB;
 	private PrintWriter out;
-	private Map<State, Boolean> stateMap;
+	private LinkedList<State> stateList;
+	private State finalState;
 	private Queue<State> visited;
 
 	public StrategyB(int jugA_cap, int jugB_cap, int jugA_init, int jugB_init, int jugA_goal, int jugB_goal,
@@ -20,7 +21,9 @@ public class StrategyB {
 
 		this.out = out;
 
-		stateMap = new HashMap<State, Boolean>();
+		finalState = new State(jugA_goal, jugB_goal);
+
+		stateList = new LinkedList<State>();
 		visited = new PriorityQueue<State>();
 		visited.add(new State(0, 0));
 
@@ -45,96 +48,143 @@ public class StrategyB {
 
 			visited.remove();
 
-			// check to see if state is already visited, if it is, move on
-			if (stateMap.get(s).equals(true)) {
-				continue;
+			if (solutionReached(s)) {
+				finalState = s;
+				break;
 			}
+
+			if (s.one == 0) {
+				State next = fillJugA(s);
+				if (!stateList.contains(next)) {
+					visited.add(next);
+					stateList.add(next);
+				}
+			}
+
+			if (s.two == 0) {
+				State next = fillJugB(s);
+				if (!stateList.contains(next)) {
+					visited.add(next);
+					stateList.add(next);
+				}
+			}
+
+			if (s.one > 0) {
+				State next = emptyJugA(s);
+				if (!stateList.contains(next)) {
+					visited.add(next);
+					stateList.add(next);
+				}
+			}
+
+			if (s.two > 0) {
+				State next = emptyJugB(s);
+				if (!stateList.contains(next)) {
+					visited.add(next);
+					stateList.add(next);
+				}
+			}
+
+			if (s.one > 0 && s.two != jugB.getTotalCapacity()) {
+				State next = fillJugBFromA(s);
+				if (!stateList.contains(next)) {
+					visited.add(next);
+					stateList.add(next);
+				}
+			}
+
+			if (s.two > 0 && s.one != jugA.getTotalCapacity()) {
+				State next = fillJugAFromB(s);
+				if (!stateList.contains(next)) {
+					visited.add(next);
+					stateList.add(next);
+				}
+			}
+		}
+		if (finalState != null) {
+			System.out.println("J1  J2");
+			System.out.println(finalState);
+		} else {
+			System.out.println("Not Possible");
+
 		}
 		return true;
 	}
 
 	// Operator 1
-	public void fillJugA() {
-		jugA.fill();
-		System.out.println("Fill the " + jugA.getTotalCapacity() + "-gallon jug\t\t\t\t\t\t --- state: ("
-				+ jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity() + ")");
+	public State fillJugA(State s) {
+		return new State(jugA.getTotalCapacity(), s.two, s);
 
-		out.println("Fill the " + jugA.getTotalCapacity() + "-gallon jug\t\t\t\t\t\t\t\t\t\t --- state: ("
-				+ jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity() + ")");
 	}
 
 	// Operator 2
-	public void fillJugB() {
-		jugB.fill();
-		System.out.println("Fill the " + jugB.getTotalCapacity() + "-gallon jug\t\t\t\t\t\t --- state: ("
-				+ jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity() + ")");
-
-		out.println("Fill the " + jugB.getTotalCapacity() + "-gallon jug\t\t\t\t\t\t\t\t\t\t --- state: ("
-				+ jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity() + ")");
+	public State fillJugB(State s) {
+		return new State(s.one, jugB.getTotalCapacity(), s);
 	}
 
 	// Operator 5
-	public void emptyJugA() {
-		jugA.empty();
-		System.out.println("Empty the " + jugA.getTotalCapacity() + "-gallon jug\t\t\t\t\t\t --- state: ("
-				+ jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity() + ")");
-
-		out.println("Empty the " + jugA.getTotalCapacity() + "-gallon jug\t\t\t\t\t\t\t\t\t\t --- state: ("
-				+ jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity() + ")");
+	public State emptyJugA(State s) {
+		return new State(0, s.two, s);
 	}
 
 	// Operator 6
-	public void emptyJugB() {
-		jugB.empty();
-		System.out.println("Empty the " + jugB.getTotalCapacity() + "-gallon jug\t\t\t\t\t\t --- state: ("
-				+ jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity() + ")");
-
-		out.println("Empty the " + jugB.getTotalCapacity() + "-gallon jug\t\t\t\t\t\t\t\t\t\t --- state: ("
-				+ jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity() + ")");
+	public State emptyJugB(State s) {
+		return new State(s.one, 0, s);
 	}
 
 	// This comprises both operators 7 and 9
-	public void fillJugAFromB() {
-		jugA.fillFrom(jugB);
-		System.out.println("Pour water from the " + jugA.getTotalCapacity() + "-gallon jug into the "
-				+ jugB.getTotalCapacity() + "-gallon jug\t\t --- state: (" + jugA.getCurrentCapacity() + ", "
-				+ jugB.getCurrentCapacity() + ")");
+	public State fillJugAFromB(State s) {
+		int one = s.one;
+		int two = s.two;
 
-		out.println("Pour water from the " + jugA.getTotalCapacity() + "-gallon jug into the " + jugB.getTotalCapacity()
-				+ "-gallon jug\t\t --- state: (" + jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity() + ")");
+		one += two;
+		two = 0;
+
+		if (one > jugA.getTotalCapacity()) {
+			int temp = one - jugA.getTotalCapacity();
+			one = jugA.getTotalCapacity();
+			two = temp;
+		}
+
+		return new State(one, two, s);
 	}
 
 	// This comprises both operators 8 and 10
-	public void fillJugBFromA() {
-		jugB.fillFrom(jugA);
-		System.out.println("Pour water from the " + jugB.getTotalCapacity() + "-gallon jug into the "
-				+ jugA.getTotalCapacity() + "-gallon jug\t\t --- state: (" + jugA.getCurrentCapacity() + ", "
-				+ jugB.getCurrentCapacity() + ")");
+	public State fillJugBFromA(State s) {
+		int one = s.one;
+		int two = s.two;
 
-		out.println("Pour water from the " + jugB.getTotalCapacity() + "-gallon jug into the " + jugA.getTotalCapacity()
-				+ "-gallon jug\t\t --- state: (" + jugA.getCurrentCapacity() + ", " + jugB.getCurrentCapacity() + ")");
+		two += one;
+		one = 0;
+
+		if (two > jugB.getTotalCapacity()) {
+			int temp = two - jugB.getTotalCapacity();
+			two = jugB.getTotalCapacity();
+			one = temp;
+		}
+		return new State(one, two, s);
 	}
 
 	// Pour water from the 7-gallon jug into the 4-gallon jug
-	public boolean solutionReached() {
+	public boolean solutionReached(State s) {
 		if (goalA == -1 && goalB == -1) {
 			return true;
 		}
 
 		if (goalA == -1) {
-			if (jugB.getCurrentCapacity() == goalB)
+			if (s.two == goalB)
 				return true;
 			else
 				return false;
 
 		} else if (goalB == -1) {
-			if (jugA.getCurrentCapacity() == goalA)
+			if (s.one == goalA)
 				return true;
 			else
 				return false;
 
 		} else {
-			if (jugA.getCurrentCapacity() == goalA && jugB.getCurrentCapacity() == goalB)
+			if (s.one == goalA && s.two == goalB)
 				return true;
 			else
 				return false;
